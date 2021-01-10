@@ -1,5 +1,6 @@
 const inquirer = require('inquirer');
 const actions = require('./actions');
+const db = require('./db/database');
 
 const menu = [
   {
@@ -40,11 +41,14 @@ function init() {
         case "View All Roles":
           actions.viewAllRoles();
           break;
-        case "Exit Program":
-          console.log('Thank you!');
-          process.exit();
-          // break;
+        case "Exit Program": {
+          console.log('Thank you for using Employee Tracker!');
+          db.close();
+          process.exit(0);
+          break;
+        }
       }
+      init();
     })
     .catch(error => {
       console.log(error);

@@ -1,45 +1,53 @@
+const db = require('./db/database');
 const cTable = require('console.table');
 
-class actions {
-  viewAllEmployees() {
-    console.log('test');
-    db
-      .query('SELECT * FROM employee')
-      .then(result => {
-        console.log(result);
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  }
+const viewAllEmployees = () => {
+  console.log('test 1');
+  db
+    .query('SELECT * FROM employee')
+    .then(result => {
+      console.log(result);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+}
 
-  viewAllEmployeesByDepartment() {
-    console.log('test 1');
-  }
+const viewAllEmployeesByDepartment = () => {
+  console.log('test 2');
+}
 
-  viewAllEmployeesByManager() {
-    console.log('test 2');
-  }
+const viewAllEmployeesByManager = () => {
+  console.log('test 3');
+}
 
-  addEmployee() {
-    console.log('test 3');
-  }
+const addEmployee = () => {
+  console.log('test 4');
+}
 
-  removeEmployee() {
-    console.log('test 4');
-  }
+const removeEmployee = () => {
+  console.log('test 5');
+}
 
-  updateEmployeeRole() {
-    console.log('test 5');
-  }
+const updateEmployeeRole = () => {
+  console.log('test 6');
+}
 
-  updateEmployeeManager() {
-    console.log('test 6');
-  }
+const updateEmployeeManager = () => {
+  console.log('test 7');
+}
 
-  viewAllRoles() {
-    console.log('test 7');
-  }
+const viewAllRoles = () => {
+  console.log('test 8');
+}
+
+module.exports = {
+  viewAllEmployees,
+  viewAllEmployeesByDepartment,
+  viewAllEmployeesByManager,
+  addEmployee,
+  removeEmployee,
+  updateEmployeeRole,
+  updateEmployeeManager,
+  viewAllRoles
 };
-
-module.exports = actions;
