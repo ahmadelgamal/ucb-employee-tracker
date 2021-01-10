@@ -23,7 +23,7 @@
     "HR"
   ],
   "author": "Ahmad El Gamal",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ahmadelgamal/ucb-employee-tracker/issues"
   },

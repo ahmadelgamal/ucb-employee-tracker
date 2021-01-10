@@ -31,4 +31,4 @@ VALUES
 ('Hana', 'Montana', 21, 11),
 ('May', 'November', 31, NULL),
 ('Muhammad', 'Ali', 32, 31),
-('Dana', 'Bash', 52, 51);
+('Dana', 'Bash', 52, 31);
