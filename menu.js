@@ -1,54 +1,54 @@
 const inquirer = require('inquirer');
 const actions = require('./actions');
-const db = require('./db/database');
+const db = require('./db/connection');
 
-const menu = [
+const question = [
   {
     type: 'rawlist',
     name: 'action',
     message: 'What would you like to do?',
-    choices: ['View All Employees', 'View All Employees By Department', 'View All Employees By Manager', 'Add Employee', 'Remove Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Exit Program'],
+    choices: ['View All Departments', 'View All Roles','View All Employees', 'Add a Department', 'Add a Role', 'Add an Employee', 'Update an Employee Role', 'Exit Program'],
   }
 ];
 
 // function to initialize program
-function init() {
-  inquirer
-    .prompt(menu)
+const init = () => {
+  return inquirer
+    .prompt(question)
     .then(answer => {
       switch (answer.action) {
-        case "View All Employees":
-          actions.viewAllEmployees();
-          break;
-        case "View All Employees By Department":
-          actions.viewAllEmployeesByDepartment();
-          break;
-        case "View All Employees By Manager":
-          actions.viewAllEmployeesByManager();
-          break;
-        case "Add Employee":
-          actions.addEmployee();
-          break;
-        case "Remove Employee":
-          actions.removeEmployee();
-          break;
-        case "Update Employee Role":
-          actions.updateEmployeeRole();
-          break;
-        case "Update Employee Manager":
-          actions.updateEmployeeManager();
+        case "View All Departments":
+          actions.viewAllDepartments()
           break;
         case "View All Roles":
           actions.viewAllRoles();
           break;
-        case "Exit Program": {
+        case "View All Employees":
+          actions.viewAllEmployees();
+          break;
+        case "Add a Department":
+          actions.addDepartment();
+          break;
+        case "Add a Role":
+          actions.addRole();
+          break;
+        case "Add an Employee":
+          actions.addEmployee();
+          break;
+        case "Update an Employee Role":
+          actions.updateEmployeeRole();
+          break;
+        case "Exit Program":
           console.log('Thank you for using Employee Tracker!');
           db.close();
           process.exit(0);
           break;
-        }
       }
-      init();
+      
+    })
+    .then(() => {
+      // console.log('To continue, please hit the up arrow');
+      // init();
     })
     .catch(error => {
       console.log(error);

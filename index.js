@@ -1,4 +1,4 @@
-const db = require('./db/database');
+const db = require('./db/connection');
 const init = require('./menu');
 
 db.connect(err => {

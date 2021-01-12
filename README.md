@@ -21,7 +21,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Description
-Employee Tracker is a command-line application that manages a company's employee database, using Node.js, Inquirer, and MySQL.
+Employee Tracker is a content-management system (CMS). It is command-line application that manages a company's employee database, using Node.js, Inquirer, and MySQL.
 
 ## Table of Contents
 - [Deployment URL](#Deployment-URL)
@@ -72,6 +72,9 @@ https://github.com/ahmadelgamal/ucb-employee-tracker
 1. Node.js
 1. Inquirer.js
 1. MySQL
+
+## Roadmap
+1. Add validation for input type and character limit.
 
 ## Questions
 Please send your questions and / or comments to **Ahmad El Gamal** at ahmadelgamal@gmail.com, or contact me on [GitHub](https://github.com/ahmadelgamal).
