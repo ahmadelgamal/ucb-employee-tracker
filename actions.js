@@ -3,21 +3,24 @@ const db = require('./db/connection');
 const cTable = require('console.table');
 
 const viewAllDepartments = () => {
-  db.query('SELECT * FROM department', (err, results) => {
+  db.query("SELECT id AS 'ID', name AS 'Department Name' FROM department ORDER BY department.name", (err, results) => {
     if (err) console.log(err);
-    return console.table(results);
+    else {
+      console.table(results);
+    }
   });
 };
 
 const viewAllRoles = () => {
-  db.query('SELECT * FROM role', (err, results) => {
+  db.query("SELECT role.id AS 'Role ID', role.title AS 'Job Title', department.name AS 'Department Name', role.salary AS 'Annual Salary' FROM role, department WHERE role.department_id=department.id ORDER BY department.name, role.title", (err, results) => {
     if (err) console.log(err);
     return console.table(results);
   });
 };
 
 const viewAllEmployees = () => {
-  db.query('SELECT * FROM employee', (err, results) => {
+  // db.query('SELECT * FROM employee', (err, results) => {
+  db.query("SELECT employee.id AS 'ID', employee.first_name AS 'First Name', employee.last_name AS 'Last Name', role.title AS 'Job Title', department.name AS 'Department', CONCAT('$', INSERT(role.salary, CHARACTER_LENGTH(role.salary)-2, 0, ',')) AS 'Salary', employee.manager_id AS 'Manager' FROM((role INNER JOIN department ON role.department_id = department.id) INNER JOIN employee ON role.id = employee.role_id) ORDER BY employee.first_name, employee.last_name", (err, results) => {
     if (err) console.log(err);
     return console.table(results);
   });
