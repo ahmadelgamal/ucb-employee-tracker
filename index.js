@@ -22,7 +22,11 @@ const question = [
 ];
 
 const viewAllDepartments = () => {
-  db.promise().query("SELECT id AS 'ID', name AS 'Department Name' FROM department ORDER BY department.name")
+  db.promise().query(`
+SELECT id AS 'ID', name AS 'Department Name'
+FROM department
+ORDER BY department.name
+`)
     .then(([rows, fields]) => {
       console.table(rows);
     })
@@ -33,7 +37,15 @@ const viewAllDepartments = () => {
 };
 
 const viewAllRoles = () => {
-  db.promise().query("SELECT role.id AS 'Role ID', role.title AS 'Job Title', department.name AS 'Department Name', role.salary AS 'Annual Salary' FROM role, department WHERE role.department_id=department.id ORDER BY department.name, role.title")
+  db.promise().query(`
+SELECT  role.id AS 'Role ID',
+        role.title AS 'Job Title',
+        department.name AS 'Department Name',
+        CONCAT('$', FORMAT(role.salary,0)) AS 'Salary'
+        FROM role, department
+        WHERE role.department_id=department.id
+        ORDER BY department.name, role.title
+    `)
     .then(([rows, fields]) => {
       console.table(rows);
     })
@@ -44,7 +56,20 @@ const viewAllRoles = () => {
 };
 
 const viewAllEmployees = () => {
-  db.promise().query("SELECT employee.id AS 'ID', employee.first_name AS 'First Name', employee.last_name AS 'Last Name', role.title AS 'Job Title', department.name AS 'Department', CONCAT('$', INSERT(role.salary, CHARACTER_LENGTH(role.salary)-2, 0, ',')) AS 'Salary', employee.manager_id AS 'Manager' FROM((role INNER JOIN department ON role.department_id = department.id) INNER JOIN employee ON role.id = employee.role_id) ORDER BY employee.first_name, employee.last_name")
+  db.promise().query(`
+SELECT  employee.id AS 'ID',
+        employee.first_name AS 'First Name',
+        employee.last_name AS 'Last Name',
+        role.title AS 'Job Title',
+        department.name AS 'Department',
+        CONCAT('$', FORMAT(role.salary,0)) AS 'Salary',
+        CONCAT(manager.first_name, ' ', manager.last_name) AS 'Manager'
+FROM employee
+LEFT JOIN role ON employee.role_id=role.id
+LEFT JOIN department ON role.department_id=department.id
+LEFT JOIN employee AS manager on manager.role_id=employee.manager_id
+ORDER BY employee.first_name, employee.last_name;
+    `)
     .then(([rows, fields]) => {
       console.table(rows);
     })
@@ -200,7 +225,10 @@ const addEmployee = () => {
 
   // stores manager title list in an array to use for prompt choices
   const managerNameList = [];
-  db.query("SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employee", (err, results) => {
+  db.query(`
+SELECT CONCAT(first_name, ' ', last_name) AS full_name
+FROM employee
+    `, (err, results) => {
     if (err) console.log(err);
     else {
       for (let i = 0; i < results.length; i++) {
@@ -298,7 +326,10 @@ const addEmployee = () => {
       if (!answer.manager_name) managerIdList[managerIndex] = null;
       console.log(managerIdList[managerIndex]);
 
-      db.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [answer.first_name, answer.last_name, roleIdList[roleIndex], managerIdList[managerIndex]], (err, results) => {
+      db.query(`
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES (?, ?, ?, ?)
+      `, [answer.first_name, answer.last_name, roleIdList[roleIndex], managerIdList[managerIndex]], (err, results) => {
         if (err) console.log(err);
         else {
           viewAllEmployees();
