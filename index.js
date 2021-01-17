@@ -320,8 +320,6 @@ FROM employee
         }
       }
 
-      console.log(managerIdList);
-      console.log(managerIndex);
       // if no manager was selected, then value is set to null
       if (!answer.manager_name) managerIdList[managerIndex] = null;
       console.log(managerIdList[managerIndex]);
