@@ -340,14 +340,65 @@ VALUES (?, ?, ?, ?)
     });
 };
 
+
 const updateEmployeeRole = () => {
-  db.promise().query('SELECT * FROM employee')
-    .then(data => {
-      return console.table('UPDATE AN EMPLOYEE', data[0]);
+
+  let nameList = [];
+  let roleList = [];
+  const questions = [
+    {
+      type: 'rawlist',
+      name: 'update_employee',
+      message: 'Please select an employee to update their role:',
+      choices: nameList
+    },
+    {
+      type: 'rawlist',
+      name: 'update_role',
+      message: 'Please select a new role for the selected employee:',
+      choices: roleList
+    }
+  ];
+
+  db.promise().query("SELECT * FROM role")
+    .then(([rows, fields]) => {
+      for (let i = 0; i < rows.length; i++) {
+        const role = rows[i].title;
+        roleList.push(role);
+      }
+      console.log(roleList);
     })
     .catch(error => {
       console.log(error);
     })
+    .then(() => {
+
+      db.promise().query("SELECT * FROM employee")
+        .then(([rows, fields]) => {
+          for (let i = 0; i < rows.length; i++) {
+            const firstName = rows[i].first_name;
+            const lastName = rows[i].last_name;
+            fullName = firstName.concat(' ', lastName);
+            nameList.push(fullName);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .then(() => {
+          console.log(nameList);
+          return inquirer
+            .prompt(questions)
+            .then(answer => {
+              console.log(answer.update_role);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+          // displayMainMenu();
+        });
+    })
+
 }
 
 // function to initialize program
