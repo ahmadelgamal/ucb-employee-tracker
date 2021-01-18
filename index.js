@@ -345,10 +345,12 @@ const updateEmployeeRole = () => {
 
   let nameList = [];
   let roleList = [];
+  let employees = [];
+  let roles = [];
   const questions = [
     {
       type: 'rawlist',
-      name: 'update_employee',
+      name: 'update_name',
       message: 'Please select an employee to update their role:',
       choices: nameList
     },
@@ -365,14 +367,13 @@ const updateEmployeeRole = () => {
       for (let i = 0; i < rows.length; i++) {
         const role = rows[i].title;
         roleList.push(role);
+        roles.push({ title: rows[i].title, role_id: rows[i].id });
       }
-      console.log(roleList);
     })
     .catch(error => {
       console.log(error);
     })
     .then(() => {
-
       db.promise().query("SELECT * FROM employee")
         .then(([rows, fields]) => {
           for (let i = 0; i < rows.length; i++) {
@@ -380,22 +381,47 @@ const updateEmployeeRole = () => {
             const lastName = rows[i].last_name;
             fullName = firstName.concat(' ', lastName);
             nameList.push(fullName);
+            employees.push({ name: fullName, id: rows[i].id });
           }
         })
         .catch(error => {
           console.log(error);
         })
         .then(() => {
-          console.log(nameList);
           return inquirer
             .prompt(questions)
             .then(answer => {
-              console.log(answer.update_role);
+              let roleId;
+              let chosenId
+              for (let i = 0; i < roles.length; i++) {
+                if (roles[i].title === answer.update_role) {
+                  roleId = roles[i].role_id;
+                  console.log('role id: ', roleId);
+                }
+              }
+              for (let i = 0; i < employees.length; i++) {
+                if (employees[i].name === answer.update_name) {
+                  chosenId = employees[i].id;
+                  console.log('chosen id: ', chosenId);
+                }
+              }
+              const sql = 'UPDATE employee SET role_id = ' + roleId + ' WHERE id = ' + chosenId;
+              console.log(sql);
+              db.promise().query(sql)
+                .then()
+                .catch(error => {
+                  console.log(error);
+                })
+                .then(() => {
+                  viewAllEmployees();
+                })
             })
             .catch(error => {
               console.log(error);
+            })
+            .then(() => {
+              displayMainMenu()
             });
-          // displayMainMenu();
         });
     })
 
