@@ -115,7 +115,7 @@ const addDepartment = () => {
 const addRole = () => {
   // stores department name list in an array to use for prompt choices
   const departmentNameList = [];
-  db.query("SELECT name FROM department", (err, results) => {
+  db.query("SELECT name FROM department ORDER BY name", (err, results) => {
     if (err) console.log(err);
     else {
       for (let i = 0; i < results.length; i++) {
@@ -127,7 +127,7 @@ const addRole = () => {
 
   // stores department id list in an array to use for input query
   const departmentIdList = [];
-  db.query("SELECT id FROM department", (err, results) => {
+  db.query("SELECT id FROM department ORDER BY name", (err, results) => {
     if (err) console.log(err);
     else {
       for (let i = 0; i < results.length; i++) {
@@ -203,7 +203,7 @@ const addEmployee = () => {
   const roleTitleList = [];
   // array of objects to match title to role_id
   const roles = [];
-  db.query("SELECT * FROM role", (err, results) => {
+  db.query("SELECT * FROM role ORDER BY title", (err, results) => {
     if (err) console.log(err);
     else {
       for (let i = 0; i < results.length; i++) {
@@ -219,7 +219,7 @@ const addEmployee = () => {
   const managers = [];
   db.query(`
   SELECT id, CONCAT(first_name, ' ', last_name) AS full_name
-  FROM employee
+  FROM employee ORDER BY full_name
   `, (err, results) => {
     if (err) console.log(err);
     else {
@@ -227,7 +227,6 @@ const addEmployee = () => {
         managerNameList.push(results[i].full_name);
         managers.push({ full_name: results[i].full_name, manager_id: results[i].id })
       }
-      console.log(managers);
       return;
     }
   })
@@ -346,7 +345,7 @@ const updateEmployeeRole = () => {
     }
   ];
 
-  db.promise().query("SELECT * FROM role")
+  db.promise().query("SELECT * FROM role ORDER BY title")
     .then(([rows, fields]) => {
       for (let i = 0; i < rows.length; i++) {
         const role = rows[i].title;
@@ -358,7 +357,7 @@ const updateEmployeeRole = () => {
       console.log(error);
     })
     .then(() => {
-      db.promise().query("SELECT * FROM employee")
+      db.promise().query("SELECT * FROM employee ORDER BY first_name, last_name")
         .then(([rows, fields]) => {
           for (let i = 0; i < rows.length; i++) {
             const firstName = rows[i].first_name;
