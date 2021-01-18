@@ -396,17 +396,14 @@ const updateEmployeeRole = () => {
               for (let i = 0; i < roles.length; i++) {
                 if (roles[i].title === answer.update_role) {
                   roleId = roles[i].role_id;
-                  console.log('role id: ', roleId);
                 }
               }
               for (let i = 0; i < employees.length; i++) {
                 if (employees[i].name === answer.update_name) {
                   chosenId = employees[i].id;
-                  console.log('chosen id: ', chosenId);
                 }
               }
               const sql = 'UPDATE employee SET role_id = ' + roleId + ' WHERE id = ' + chosenId;
-              console.log(sql);
               db.promise().query(sql)
                 .then()
                 .catch(error => {
