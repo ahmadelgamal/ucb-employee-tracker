@@ -52,26 +52,30 @@ https://github.com/ahmadelgamal/ucb-employee-tracker
 
 ## Installation
 
-1. run `npm install` to install dependencies.
-1. open MySQL CLI
-1. In MySQL CLI: create database by running the command: `source db/schema.sql`.
+1. Run `npm install` to install dependencies.
+1. Open MySQL CLI
+1. In MySQL CLI: create the database by running the command: `source db/schema.sql`.
 1. Optional: seed the database by running the command: `source db/seeds.sql`.
 
 ## Usage
 1. In the terminal: run `npm start`.
 1. Select the required action from the menu.
+1. When inputting data, please note that no validation has been applied to the user input. Therefore:
+   1. Please use appropriate variable types ONLYs.
+   1. Please limit character input to 30 characters per field.
 
 ### Screenshot / Gif Animation
-![Screenshot / Gif Animation]()
+![Screenshot / Gif Animation](./assets/screenshot.png)
 
 ### Video Demo
-[Video Link]()
+[Video Link](https://youtu.be/3iKql5dZSfw)
 
 ## Technologies Used
 1. JavaScript
-1. Node.js
-1. Inquirer.js
-1. MySQL
+1. [Node.js](https://nodejs.org/en/)
+1. [Inquirer.js](https://www.npmjs.com/package/inquirer)
+1. [MySQL](https://www.mysql.com/)
+1. [Asciiart-logo](https://www.npmjs.com/package/asciiart-logo)
 
 ## Roadmap
 1. Add validation for input type and character limit.
