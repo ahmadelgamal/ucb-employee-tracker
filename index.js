@@ -201,23 +201,14 @@ const addRole = () => {
 const addEmployee = () => {
   // stores role title list in an array to use for prompt choices
   const roleTitleList = [];
-  db.query("SELECT title FROM role", (err, results) => {
+  // array of objects to match title to role_id
+  const roles = [];
+  db.query("SELECT * FROM role", (err, results) => {
     if (err) console.log(err);
     else {
       for (let i = 0; i < results.length; i++) {
         roleTitleList.push(results[i].title);
-      }
-      return;
-    }
-  })
-
-  // stores role id list in an array to use for input query
-  const roleIdList = [];
-  db.query("SELECT id FROM role", (err, results) => {
-    if (err) console.log(err);
-    else {
-      for (let i = 0; i < results.length; i++) {
-        roleIdList.push(results[i].id);
+        roles.push({ title: results[i].title, role_id: results[i].id })
       }
       return;
     }
@@ -225,27 +216,18 @@ const addEmployee = () => {
 
   // stores manager title list in an array to use for prompt choices
   const managerNameList = [];
+  const managers = [];
   db.query(`
-SELECT CONCAT(first_name, ' ', last_name) AS full_name
-FROM employee
-    `, (err, results) => {
+  SELECT id, CONCAT(first_name, ' ', last_name) AS full_name
+  FROM employee
+  `, (err, results) => {
     if (err) console.log(err);
     else {
       for (let i = 0; i < results.length; i++) {
         managerNameList.push(results[i].full_name);
+        managers.push({ full_name: results[i].full_name, manager_id: results[i].id })
       }
-      return;
-    }
-  })
-
-  // stores manager id list in an array to use for input query
-  const managerIdList = [];
-  db.query("SELECT id FROM employee", (err, results) => {
-    if (err) console.log(err);
-    else {
-      for (let i = 0; i < results.length; i++) {
-        managerIdList.push(results[i].id);
-      }
+      console.log(managers);
       return;
     }
   })
@@ -302,30 +284,34 @@ FROM employee
   inquirer
     .prompt(questions)
     .then(answer => {
+      console.log('test');
       // declares variable to identify chosen role title index
-      let roleIndex;
-      // matches role id to role title
-      for (let i = 0; i < roleTitleList.length; i++) {
-        if (roleTitleList[i] === answer.role_title) {
-          roleIndex = i;
+      let chosenRoleId;
+      for (let i = 0; i < roles.length; i++) {
+        // matches role id to role title
+        if (roles[i].title === answer.role_title) {
+          chosenRoleId = roles[i].role_id;
+          console.log(chosenRoleId);
         }
       }
 
-      // declares variable to identify chosen manager title index
-      let managerIndex;
-      // matches role id to role title
-      for (let i = 0; i < managerNameList.length; i++) {
-        if (managerNameList[i] === answer.manager_name) {
-          managerIndex = i;
+      // declares variable to identify chosen id
+      let chosenManagerId;
+      for (let i = 0; i < managers.length; i++) {
+        // matches id to title
+        if (managers[i].full_name === answer.manager_name) {
+          chosenManagerId = managers[i].manager_id;
+          console.log(chosenManagerId);
         }
       }
 
       // if no manager was selected, then value is set to null
-      if (!answer.manager_name) managerIdList[managerIndex] = null;
+      if (!answer.manager_name) chosenManagerId = null;
+
       db.query(`
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES (?, ?, ?, ?)
-      `, [answer.first_name, answer.last_name, roleIdList[roleIndex], managerIdList[managerIndex]], (err, results) => {
+      `, [answer.first_name, answer.last_name, chosenRoleId, chosenManagerId], (err, results) => {
         if (err) console.log(err);
         else {
           viewAllEmployees();
