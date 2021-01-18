@@ -11,9 +11,9 @@ VALUES
 
 INSERT INTO role (id, title, salary, department_id)
 VALUES
-(1, 'Chairman', 100000, 1),
-(2, 'CEO', 100000, 1),
-(3, 'CFO', 100000, 2),
+(1, 'Chairman', 200000, 1),
+(2, 'CEO', 180000, 1),
+(3, 'CFO', 120000, 2),
 (4, 'Accountant', 60000, 2),
 (5, 'Secretary', 60000, 3),
 (6, 'HR Manager', 100000, 4),
