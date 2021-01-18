@@ -39,8 +39,8 @@ ORDER BY department.name
 const viewAllRoles = () => {
   db.promise().query(`
 SELECT  role.id AS 'Role ID',
-        role.title AS 'Job Title',
         department.name AS 'Department Name',
+        role.title AS 'Job Title',
         CONCAT('$', FORMAT(role.salary,0)) AS 'Salary'
         FROM role, department
         WHERE role.department_id=department.id
