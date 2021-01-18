@@ -67,7 +67,7 @@ SELECT  employee.id AS 'ID',
 FROM employee
 LEFT JOIN role ON employee.role_id=role.id
 LEFT JOIN department ON role.department_id=department.id
-LEFT JOIN employee AS manager on manager.role_id=employee.manager_id
+LEFT JOIN employee AS manager on manager.id=employee.manager_id
 ORDER BY employee.first_name, employee.last_name;
     `)
     .then(([rows, fields]) => {
@@ -240,11 +240,11 @@ FROM employee
 
   // stores manager id list in an array to use for input query
   const managerIdList = [];
-  db.query("SELECT role_id FROM employee", (err, results) => {
+  db.query("SELECT id FROM employee", (err, results) => {
     if (err) console.log(err);
     else {
       for (let i = 0; i < results.length; i++) {
-        managerIdList.push(results[i].role_id);
+        managerIdList.push(results[i].id);
       }
       return;
     }
@@ -322,8 +322,6 @@ FROM employee
 
       // if no manager was selected, then value is set to null
       if (!answer.manager_name) managerIdList[managerIndex] = null;
-      console.log(managerIdList[managerIndex]);
-
       db.query(`
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES (?, ?, ?, ?)
@@ -421,7 +419,6 @@ const updateEmployeeRole = () => {
             });
         });
     })
-
 }
 
 // function to initialize program

@@ -1,34 +1,37 @@
 INSERT INTO department (id, name)
 VALUES
-(1, 'Accounting'),
-(2, 'Admin'),
-(3, 'HR'),
-(4, 'Legal'),
-(5, 'Marketing'),
-(6, 'IT'),
-(7, 'Sales');
+(1, 'Top Management'),
+(2, 'Accounting'),
+(3, 'Admin'),
+(4, 'HR'),
+(5, 'Legal'),
+(6, 'Marketing'),
+(7, 'IT'),
+(8, 'Sales');
 
 INSERT INTO role (id, title, salary, department_id)
 VALUES
-(11, 'CFO', 100000, 1),
-(12, 'Accountant', 60000, 1),
-(21, 'Secretary', 60000, 2),
-(31, 'HR Manager', 100000, 3),
-(32, 'Personnel Associate', 60000, 3),
-(41, 'Attorney', 80000, 4),
-(51, 'Marketing Director', 120000, 5),
-(52, 'SEO Manager', 100000, 5),
-(61, 'IT Manager', 100000, 6),
-(62, 'IT Administrator', 80000, 6),
-(71, 'Sales Director', 120000, 7),
-(72, 'Sales Rep', 70000, 7);
+(1, 'Chairman', 100000, 1),
+(2, 'CEO', 100000, 1),
+(3, 'CFO', 100000, 2),
+(4, 'Accountant', 60000, 2),
+(5, 'Secretary', 60000, 3),
+(6, 'HR Manager', 100000, 4),
+(7, 'Personnel Associate', 60000, 4),
+(8, 'Attorney', 80000, 5),
+(9, 'Marketing Director', 120000, 6),
+(10, 'SEO Manager', 100000, 6),
+(11, 'IT Manager', 100000, 7),
+(12, 'IT Administrator', 80000, 7),
+(13, 'Sales Director', 120000, 8),
+(14, 'Sales Rep', 70000, 8);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES
-('Ahmad', 'Masry', 61, NULL),
-('Captain', 'Maged', 62, 61),
-('Omar', 'De La Jolla', 11, NULL),
-('Hana', 'Montana', 21, 11),
-('May', 'November', 31, NULL),
-('Muhammad', 'Ali', 32, 31),
-('Dana', 'Bash', 52, 31);
+('Ahmad', 'Masry', 1, NULL),
+('Captain', 'Maged', 2, 1),
+('Omar', 'De La Jolla', 3, 2),
+('Hana', 'Montana', 8, NULL),
+('May', 'Elway', 9, 2),
+('Muhammad', 'Ali', 6, 2),
+('Dana', 'Bash', 7, 6);
